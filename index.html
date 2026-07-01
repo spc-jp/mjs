@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダーツマシン・レンタル | 株式会社エム・ジェイ・エス</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mjs-red': '#E60012',
+                        'mjs-dark': '#1A1A1A',
+                        'mjs-light': '#F5F5F5'
+                    },
+                    boxShadow: {
+                        'clay': '6px 6px 12px #e0e0e0, -6px -6px 12px #ffffff',
+                        'inner-clay': 'inset 4px 4px 8px #e0e0e0, inset -4px -4px 8px #ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; 
+            background-color: #FAFAFA; 
+        }
+        /* スムーズスクロール */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- ヘッダー -->
+    <header class="bg-mjs-dark text-white p-4 sticky top-0 z-40 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-wider flex items-center">
+                <i class="ph-fill ph-target text-mjs-red text-2xl mr-2"></i>
+                MJS <span class="text-xs ml-2 font-normal text-gray-300">ダーツマシンレンタル</span>
+            </h1>
+            <a href="#" class="bg-mjs-red hover:bg-red-700 text-white text-xs font-bold py-2 px-4 rounded-full transition-colors hidden md:block">
+                お問い合わせ
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- ヒーローセクション & 診断ツール -->
+        <section class="px-4 pt-10 pb-16 max-w-4xl mx-auto">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 text-mjs-dark leading-tight">
+                    集客力バツグンの従業員、<br>
+                    <span class="text-mjs-red text-4xl md:text-5xl">初期費用0円</span> で雇いませんか？
+                </h2>
+                <p class="text-gray-600 text-sm md:text-base font-medium mb-8 leading-relaxed px-2">
+                    ダーツマシンは、文句も言わずお客様を「おもてなし」する優秀なスタッフです。<br>
+                    面倒なメンテナンスもMJSがまるごと伴走します。
+                </p>
+
+                <!-- ダーツマシン メインビジュアル (プレースホルダー) -->
+                <div class="relative w-full max-w-2xl mx-auto mb-12 rounded-3xl overflow-hidden shadow-2xl bg-gray-900 aspect-[4/3] md:aspect-[16/9] flex items-center justify-center border-4 border-white">
+                    <!-- ここに実際のVSPHOENIX Xなどの画像を入れます -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                    <div class="text-center z-20 p-4">
+                        <i class="ph-fill ph-image text-6xl text-gray-500 mb-2"></i>
+                        <p class="text-white font-bold text-lg md:text-xl mb-1">【ここにダーツマシンのメイン画像を配置】</p>
+                        <p class="text-gray-300 text-xs md:text-sm">ナイトシーンに映える、シズル感のある写真</p>
+                    </div>
+                </div>
+
+                <!-- ぴったりプラン診断ツール (SNS流入向けのフック) -->
+                <div id="diagnostic-tool" class="bg-white rounded-3xl p-6 md:p-8 shadow-clay border border-white mx-auto max-w-lg relative overflow-hidden">
+                    
+                    <!-- 質問画面 -->
+                    <div id="start-screen" class="transition-opacity duration-500">
+                        <div class="inline-block bg-mjs-dark text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                            <i class="ph-fill ph-magic-wand mr-1"></i>30秒でわかる
+                        </div>
+                        <h3 class="text-xl font-bold mb-6 text-mjs-dark">貴店にぴったりの<br><span class="text-mjs-red">導入プラン</span>を自動分析します</h3>
+                        
+                        <p class="text-sm font-bold text-gray-600 text-left mb-2">お店の状況に一番近いものは？</p>
+                        <div class="space-y-3">
+                            <button onclick="showResult('online')" class="w-full text-left bg-mjs-light hover:bg-gray-200 text-mjs-dark font-bold py-4 px-5 rounded-2xl transition-colors flex items-center justify-between border-2 border-transparent hover:border-gray-300">
+                                <span>ダーツでガッツリ集客・売上UPしたい</span>
+                                <i class="ph ph-caret-right text-gray-400"></i>
+                            </button>
+                            <button onclick="showResult('offline')" class="w-full text-left bg-mjs-light hover:bg-gray-200 text-mjs-dark font-bold py-4 px-5 rounded-2xl transition-colors flex items-center justify-between border-2 border-transparent hover:border-gray-300">
+                                <span>お酒の席のちょっとした遊びとして置きたい</span>
+                                <i class="ph ph-caret-right text-gray-400"></i>
+                            </button>
+                            <button onclick="showResult('staff')" class="w-full text-left bg-mjs-light hover:bg-gray-200 text-mjs-dark font-bold py-4 px-5 rounded-2xl transition-colors flex items-center justify-between border-2 border-transparent hover:border-gray-300">
+                                <span>オーナーやスタッフも無料で練習したい</span>
+                                <i class="ph ph-caret-right text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 結果画面 (初期は非表示) -->
+                    <div id="result-screen" class="hidden transition-opacity duration-500">
+                        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="ph-fill ph-check-circle text-4xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 text-mjs-dark">分析完了！おすすめはこちら</h3>
+                        
+                        <div class="bg-gray-50 border-2 border-mjs-red rounded-2xl p-4 mb-4">
+                            <p class="text-mjs-red font-black text-xl mb-1">【賃貸借契約（定額制）】プラン</p>
+                            <p class="text-sm text-gray-700 font-bold mb-2">最新オンラインマシン（VSPHOENIX X 等）</p>
+                            <ul class="text-left text-xs text-gray-600 space-y-1 list-disc pl-4">
+                                <li>両替の手間なし！即日売上計上可能</li>
+                                <li>オーナー様・スタッフ様は無料でプレイ可能</li>
+                                <li>料金やラウンド設定も自由自在</li>
+                            </ul>
+                        </div>
+                        
+                        <p class="text-xs text-gray-500 mb-6">※実際の店舗の広さやご予算を伺い、最終的なご提案をいたします。</p>
+                        
+                        <a href="#" class="block w-full bg-mjs-red hover:bg-red-700 text-white font-bold py-4 rounded-full transition-colors shadow-lg shadow-red-500/30">
+                            詳しく相談してみる（無料）
+                        </a>
+                        <button onclick="resetDiagnostics()" class="mt-4 text-sm text-gray-400 underline">
+                            最初からやり直す
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 選ばれる理由 -->
+        <section class="px-4 py-16 bg-mjs-light">
+            <h2 class="text-2xl font-black text-center mb-10 text-mjs-dark">MJSが選ばれる<span class="text-mjs-red">3つの理由</span></h2>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Point 1 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white text-center">
+                    <div class="w-16 h-16 bg-mjs-light rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner-clay">
+                        <i class="ph ph-wallet text-3xl text-mjs-red"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">設置導入費 0円</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        輸送運搬費、設置作業費、周辺備品など、導入にかかる初期費用は一切いただきません。保証金も不要です。
+                    </p>
+                </div>
+                <!-- Point 2 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white text-center">
+                    <div class="w-16 h-16 bg-mjs-light rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner-clay">
+                        <i class="ph ph-trend-up text-3xl text-mjs-red"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">飲食売上UPの伴走</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        長年の実績をもとに、店内プロモーションやイベントをご提案。ただマシンを置くだけでなく店舗運営をサポートします。
+                    </p>
+                </div>
+                <!-- Point 3 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white text-center">
+                    <div class="w-16 h-16 bg-mjs-light rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner-clay">
+                        <i class="ph ph-wrench text-3xl text-mjs-red"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">安心のフルサポート</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        両替の手間がない「定額制プラン」が大人気。万が一の不具合や定期メンテナンスも担当者が迅速に対応します。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 取扱機種紹介（画像プレースホルダー） -->
+        <section class="px-4 py-16 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-center mb-4 text-mjs-dark">
+                店舗に合わせて選べる<br><span class="text-mjs-red">最新マシンラインナップ</span>
+            </h2>
+            <p class="text-center text-gray-600 text-sm mb-10">オンラインからオフラインまで、最適な1台をご提案します。</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 機種 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-clay border border-white">
+                    <div class="h-64 bg-gray-900 flex items-center justify-center relative">
+                         <!-- 画像プレースホルダー -->
+                         <div class="text-center">
+                            <i class="ph-fill ph-camera text-4xl text-gray-500 mb-2"></i>
+                            <p class="text-gray-400 font-bold text-sm">VSPHOENIX X の写真</p>
+                         </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="inline-block bg-black text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                            オンライン対応
+                        </div>
+                        <h3 class="font-black text-xl mb-2 text-mjs-dark">VSPHOENIX X</h3>
+                        <p class="text-sm text-gray-600 mb-4">圧倒的な存在感と大画面モニターで、店内のエンタメ性を一気に高める最高峰モデル。</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li><i class="ph-fill ph-check-circle text-mjs-red mr-1"></i>大迫力の全面ディスプレイ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 機種 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-clay border border-white">
+                    <div class="h-64 bg-gray-900 flex items-center justify-center relative">
+                         <!-- 画像プレースホルダー -->
+                         <div class="text-center">
+                            <i class="ph-fill ph-camera text-4xl text-gray-500 mb-2"></i>
+                            <p class="text-gray-400 font-bold text-sm">DARTSLIVE3 の写真</p>
+                         </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="inline-block bg-black text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                            オンライン対応
+                        </div>
+                        <h3 class="font-black text-xl mb-2 text-mjs-dark">DARTSLIVE3</h3>
+                        <p class="text-sm text-gray-600 mb-4">直感的なタッチパネルと多彩なゲームで、初心者から上級者まで夢中にさせる人気機種。</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li><i class="ph-fill ph-check-circle text-mjs-red mr-1"></i>タッチ液晶搭載</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <p class="text-sm text-gray-500">※その他、省スペースなオフライン機種「矢音」などもご用意しています。</p>
+            </div>
+        </section>
+
+        <!-- 導入の流れ -->
+        <section class="px-4 py-16 max-w-3xl mx-auto bg-mjs-dark text-white rounded-[2.5rem] my-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-mjs-red rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+            
+            <h2 class="text-2xl font-black text-center mb-10 relative z-10">お問い合わせから<br>稼働までのスムーズな流れ</h2>
+            
+            <div class="relative z-10 space-y-6">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">1</div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-1">お問い合わせ・ヒアリング</h4>
+                        <p class="text-sm text-gray-300">まずはスマホからお気軽に。店舗の広さやご希望をお伺いします。</p>
+                    </div>
+                </div>
+                <div class="ml-5 w-0.5 h-6 bg-gray-600"></div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">2</div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-1">プランのご提案</h4>
+                        <p class="text-sm text-gray-300">お店にベストな機種と、無理のない契約プラン（定額制など）をご提案。</p>
+                    </div>
+                </div>
+                <div class="ml-5 w-0.5 h-6 bg-gray-600"></div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">3</div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-1">搬入・設置・調整</h4>
+                        <p class="text-sm text-gray-300">専門スタッフが迅速に設置。スローラインの計測や初期設定も行います。</p>
+                    </div>
+                </div>
+                <div class="ml-5 w-0.5 h-6 bg-gray-600"></div>
+
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full border-2 border-mjs-red text-mjs-red bg-mjs-dark flex items-center justify-center font-black text-lg mr-4"><i class="ph-fill ph-flag-checkered"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-1 text-mjs-red">運用スタート！</h4>
+                        <p class="text-sm text-gray-300">ハウスダーツ等の備品もお渡ししますので、当日から遊べます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-gray-400 py-8 text-center text-xs">
+        <p>© MJS Co.,Ltd. All Rights Reserved.</p>
+    </footer>
+
+    <!-- 右下固定ボタンエリア -->
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col gap-4 items-end pointer-events-none">
+        
+        <!-- LINE相談ボタン -->
+        <a href="#" class="pointer-events-auto bg-[#06C755] hover:bg-[#05b34c] text-white w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-colors duration-300 relative group">
+            <i class="ph-fill ph-chat-circle-text text-2xl"></i>
+            <!-- ツールチップ -->
+            <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-white text-gray-800 text-xs font-bold px-3 py-2 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                LINEで無料相談
+                <!-- 吹き出しの尻尾 -->
+                <span class="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-white transform rotate-45"></span>
+            </span>
+        </a>
+
+        <!-- トップへ戻るボタン (スマイルプラスコンサルティング様仕様) -->
+        <button id="page-top-btn" class="pointer-events-auto bg-[#FFE066] text-[#0D3D52] hover:bg-[#0D3D52] hover:text-[#FFE066] w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 translate-y-4 cursor-pointer">
+            <!-- 上向き矢印SVG（バウンスアニメーション付き） -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // --- 診断ツールのロジック ---
+        function showResult(type) {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+        }
+
+        function resetDiagnostics() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+
+        // --- トップへ戻るボタンのロジック ---
+        const pageTopBtn = document.getElementById('page-top-btn');
+
+        // スクロール時の処理（400px以上で表示）
+        window.addEventListener('scroll', () => {
+            if (window.scrollY >= 400) {
+                pageTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                pageTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                pageTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                pageTopBtn.classList.add('opacity-0', 'translate-y-4');
+            }
+        });
+
+        // クリック時の処理（スムーズスクロール）
+        pageTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
