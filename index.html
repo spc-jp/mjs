@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダーツマシン・レンタル | 株式会社エム・ジェイ・エス</title>
-    
+
     <!-- ファビコン設定 -->
     <link rel="icon" href="https://spc-jp.github.io/mjs/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="https://spc-jp.github.io/mjs/favicon.png">
@@ -13,7 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -32,25 +32,31 @@
         }
     </script>
     <style>
-        body { 
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; 
-            background-color: #FAFAFA; 
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #FAFAFA;
         }
         /* スムーズスクロール */
         html { scroll-behavior: smooth; }
+        /* アンカー移動時にヘッダー分の余白を確保 */
+        section[id] { scroll-margin-top: 80px; }
+        /* Q&Aアコーディオンのデフォルト三角マーカーを消す */
+        summary::-webkit-details-marker { display: none; }
+        summary { list-style: none; }
     </style>
 </head>
-<body class="text-gray-800 pb-20">
+<body class="text-gray-800 pb-20 md:pb-0">
 
     <!-- ヘッダー -->
     <header class="bg-mjs-dark text-white p-4 sticky top-0 z-40 shadow-md">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-black tracking-wider flex items-center">
+            <h1 class="text-lg md:text-xl font-black tracking-wider flex items-center">
                 <i class="ph-fill ph-target text-mjs-red text-2xl mr-2"></i>
-                MJS <span class="text-xs ml-2 font-normal text-gray-300">ダーツマシンレンタル</span>
+                MJS <span class="text-xs ml-2 font-normal text-gray-300 hidden sm:inline">ダーツマシンレンタル</span>
             </h1>
-            <a href="#" class="bg-mjs-red hover:bg-red-700 text-white text-xs font-bold py-2 px-4 rounded-full transition-colors hidden md:block">
-                お問い合わせ
+            <!-- ヘッダーCTA：スマホでも常時表示（GA4：来訪の約7割がスマホ） -->
+            <a href="#contact" class="bg-mjs-red hover:bg-red-700 text-white text-xs font-bold py-2 px-3 md:px-4 rounded-full transition-colors whitespace-nowrap">
+                <i class="ph-fill ph-chat-teardrop-text mr-1"></i>無料相談
             </a>
         </div>
     </header>
@@ -63,10 +69,21 @@
                     集客力バツグンの従業員、<br>
                     <span class="text-mjs-red text-4xl md:text-5xl">初期費用0円</span> で雇いませんか？
                 </h2>
-                <p class="text-gray-600 text-sm md:text-base font-medium mb-8 leading-relaxed px-2">
+                <p class="text-gray-600 text-sm md:text-base font-medium mb-6 leading-relaxed px-2">
                     ダーツマシンは、文句も言わずお客様を「おもてなし」する優秀なスタッフです。<br>
                     面倒なメンテナンスもMJSがまるごと伴走します。
                 </p>
+
+                <!-- 1画面目CTA：スクロール前に「行き先」を提示（GA4：スマホ主役／取りこぼし防止） -->
+                <div class="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto mb-10">
+                    <a href="#contact" class="flex-1 bg-mjs-red hover:bg-red-700 text-white font-bold py-4 px-6 rounded-full transition-colors shadow-lg shadow-red-500/30 flex items-center justify-center focus:outline-none focus-visible:ring-4 focus-visible:ring-red-300">
+                        <i class="ph-fill ph-phone-call mr-2 text-lg"></i>無料で相談する
+                    </a>
+                    <!-- LINE URL（例）：https://lin.ee/XXXXXXX ← 実際のLINE公式アカウントURLに差し替え -->
+                    <a href="https://lin.ee/XXXXXXX" class="flex-1 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold py-4 px-6 rounded-full transition-colors shadow-lg shadow-green-500/30 flex items-center justify-center focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300">
+                        <i class="ph-fill ph-chat-circle-text mr-2 text-lg"></i>LINEで聞く
+                    </a>
+                </div>
 
                 <!-- ダーツマシン メインビジュアル (プレースホルダー) -->
                 <div class="relative w-full max-w-2xl mx-auto mb-12 rounded-3xl overflow-hidden shadow-2xl bg-gray-900 aspect-[4/3] md:aspect-[16/9] flex items-center justify-center border-4 border-white">
@@ -81,14 +98,14 @@
 
                 <!-- ぴったりプラン診断ツール (SNS流入向けのフック) -->
                 <div id="diagnostic-tool" class="bg-white rounded-3xl p-6 md:p-8 shadow-clay border border-white mx-auto max-w-lg relative overflow-hidden">
-                    
+
                     <!-- 質問画面 -->
                     <div id="start-screen" class="transition-opacity duration-500">
                         <div class="inline-block bg-mjs-dark text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
                             <i class="ph-fill ph-magic-wand mr-1"></i>30秒でわかる
                         </div>
                         <h3 class="text-xl font-bold mb-6 text-mjs-dark">貴店にぴったりの<br><span class="text-mjs-red">導入プラン</span>を自動分析します</h3>
-                        
+
                         <p class="text-sm font-bold text-gray-600 text-left mb-2">お店の状況に一番近いものは？</p>
                         <div class="space-y-3">
                             <button onclick="showResult('online')" class="w-full text-left bg-mjs-light hover:bg-gray-200 text-mjs-dark font-bold py-4 px-5 rounded-2xl transition-colors flex items-center justify-between border-2 border-transparent hover:border-gray-300">
@@ -106,27 +123,24 @@
                         </div>
                     </div>
 
-                    <!-- 結果画面 (初期は非表示) -->
+                    <!-- 結果画面 (初期は非表示・診断内容で3パターン出し分け) -->
                     <div id="result-screen" class="hidden transition-opacity duration-500">
                         <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="ph-fill ph-check-circle text-4xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold mb-2 text-mjs-dark">分析完了！おすすめはこちら</h3>
-                        
-                        <div class="bg-gray-50 border-2 border-mjs-red rounded-2xl p-4 mb-4">
-                            <p class="text-mjs-red font-black text-xl mb-1">【賃貸借契約（定額制）】プラン</p>
-                            <p class="text-sm text-gray-700 font-bold mb-2">最新オンラインマシン（VSPHOENIX X 等）</p>
-                            <ul class="text-left text-xs text-gray-600 space-y-1 list-disc pl-4">
-                                <li>両替の手間なし！即日売上計上可能</li>
-                                <li>オーナー様・スタッフ様は無料でプレイ可能</li>
-                                <li>料金やラウンド設定も自由自在</li>
-                            </ul>
+                        <p id="result-badge" class="inline-block bg-mjs-dark text-white text-xs font-bold px-3 py-1 rounded-full mb-3">分析完了</p>
+                        <h3 class="text-lg font-bold mb-2 text-mjs-dark">あなたのお店へのおすすめはこちら</h3>
+
+                        <div class="bg-gray-50 border-2 border-mjs-red rounded-2xl p-4 mb-4 text-left">
+                            <p id="result-plan" class="text-mjs-red font-black text-xl mb-1"></p>
+                            <p id="result-machine" class="text-sm text-gray-700 font-bold mb-2"></p>
+                            <ul id="result-points" class="text-xs text-gray-600 space-y-1 list-disc pl-4"></ul>
                         </div>
-                        
+
                         <p class="text-xs text-gray-500 mb-6">※実際の店舗の広さやご予算を伺い、最終的なご提案をいたします。</p>
-                        
-                        <a href="#" class="block w-full bg-mjs-red hover:bg-red-700 text-white font-bold py-4 rounded-full transition-colors shadow-lg shadow-red-500/30">
-                            詳しく相談してみる（無料）
+
+                        <a href="#contact" class="block w-full bg-mjs-red hover:bg-red-700 text-white font-bold py-4 rounded-full transition-colors shadow-lg shadow-red-500/30">
+                            この内容で詳しく相談してみる（無料）
                         </a>
                         <button onclick="resetDiagnostics()" class="mt-4 text-sm text-gray-400 underline">
                             最初からやり直す
@@ -139,7 +153,7 @@
         <!-- 選ばれる理由 -->
         <section class="px-4 py-16 bg-mjs-light">
             <h2 class="text-2xl font-black text-center mb-10 text-mjs-dark">MJSが選ばれる<span class="text-mjs-red">3つの理由</span></h2>
-            
+
             <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Point 1 -->
                 <div class="bg-white rounded-3xl p-6 shadow-clay border border-white text-center">
@@ -171,6 +185,13 @@
                         両替の手間がない「定額制プラン」が大人気。万が一の不具合や定期メンテナンスも担当者が迅速に対応します。
                     </p>
                 </div>
+            </div>
+
+            <!-- 中間CTAバンド：気持ちが高まったその場で相談へ（GA4：CTAは複数箇所） -->
+            <div class="max-w-4xl mx-auto mt-10 text-center">
+                <a href="#contact" class="inline-flex items-center bg-mjs-dark hover:bg-black text-white font-bold py-4 px-8 rounded-full transition-colors shadow-lg">
+                    <i class="ph-fill ph-chat-teardrop-text mr-2 text-lg"></i>まずは0円導入について聞いてみる
+                </a>
             </div>
         </section>
 
@@ -224,18 +245,123 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="text-center mt-8">
                 <p class="text-sm text-gray-500">※その他、省スペースなオフライン機種「矢音」などもご用意しています。</p>
+            </div>
+        </section>
+
+        <!-- お客様の声・導入事例（GA4：検索客の不安解消／安心材料） -->
+        <!-- ▼ 下の3件はサンプルです。実際の導入店舗さまの声に差し替えてください。 -->
+        <section class="px-4 py-16 bg-mjs-light">
+            <h2 class="text-2xl font-black text-center mb-2 text-mjs-dark">導入された<span class="text-mjs-red">お店の声</span></h2>
+            <p class="text-center text-gray-600 text-sm mb-10">実際に「0円導入」を体験された店舗さまの感想です。</p>
+
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 声 1 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white">
+                    <div class="flex text-mjs-red mb-3 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4">「初期費用がかからないと聞いて半信半疑でしたが、本当に0円で始められました。今では常連さんの盛り上がりネタになっています。」</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-mjs-light flex items-center justify-center mr-3 shadow-inner-clay">
+                            <i class="ph-fill ph-user text-gray-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-mjs-dark">居酒屋オーナー A様（サンプル）</p>
+                            <p class="text-xs text-gray-400">埼玉県</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 声 2 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white">
+                    <div class="flex text-mjs-red mb-3 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4">「両替の手間がない定額制がありがたいです。オーナーの私やスタッフも無料で練習でき、お客様との会話も弾むようになりました。」</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-mjs-light flex items-center justify-center mr-3 shadow-inner-clay">
+                            <i class="ph-fill ph-user text-gray-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-mjs-dark">ダイニングバー B様（サンプル）</p>
+                            <p class="text-xs text-gray-400">東京都</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 声 3 -->
+                <div class="bg-white rounded-3xl p-6 shadow-clay border border-white">
+                    <div class="flex text-mjs-red mb-3 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star-half"></i>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-4">「小さな店なので置けるか不安でしたが、省スペースの機種を提案してもらえました。故障時の対応も早くて安心です。」</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-mjs-light flex items-center justify-center mr-3 shadow-inner-clay">
+                            <i class="ph-fill ph-user text-gray-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-mjs-dark">スナック C様（サンプル）</p>
+                            <p class="text-xs text-gray-400">千葉県</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- よくあるご質問（GA4：検索客の「本当に大丈夫？」を先回りで解消） -->
+        <section class="px-4 py-16 max-w-3xl mx-auto">
+            <h2 class="text-2xl font-black text-center mb-10 text-mjs-dark">よくある<span class="text-mjs-red">ご質問</span></h2>
+
+            <div class="space-y-4">
+                <details class="group bg-white rounded-2xl shadow-clay border border-white px-5 py-4">
+                    <summary class="flex justify-between items-center cursor-pointer font-bold text-mjs-dark">
+                        <span><span class="text-mjs-red mr-1">Q.</span>本当に初期費用は0円ですか？</span>
+                        <i class="ph ph-plus text-mjs-red transition-transform duration-300 group-open:rotate-45"></i>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">輸送・設置作業費や周辺備品まで含め、導入時の初期費用や保証金はいただきません。定額制プランなら、あとは月々の定額のみでご利用いただけます。</p>
+                </details>
+
+                <details class="group bg-white rounded-2xl shadow-clay border border-white px-5 py-4">
+                    <summary class="flex justify-between items-center cursor-pointer font-bold text-mjs-dark">
+                        <span><span class="text-mjs-red mr-1">Q.</span>両替の手間はかかりますか？</span>
+                        <i class="ph ph-plus text-mjs-red transition-transform duration-300 group-open:rotate-45"></i>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">定額制プランなら両替は不要で、売上はその日のうちに計上できます。オーナー様・スタッフ様は無料でプレイでき、料金やラウンド設定も自由に変更いただけます。</p>
+                </details>
+
+                <details class="group bg-white rounded-2xl shadow-clay border border-white px-5 py-4">
+                    <summary class="flex justify-between items-center cursor-pointer font-bold text-mjs-dark">
+                        <span><span class="text-mjs-red mr-1">Q.</span>小さな店舗でも設置できますか？</span>
+                        <i class="ph ph-plus text-mjs-red transition-transform duration-300 group-open:rotate-45"></i>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">省スペースのオフライン機種「矢音」など、コンパクトに置ける機種もご用意しています。実際の店内の広さを確認したうえで、最適な1台をご提案します。</p>
+                </details>
+
+                <details class="group bg-white rounded-2xl shadow-clay border border-white px-5 py-4">
+                    <summary class="flex justify-between items-center cursor-pointer font-bold text-mjs-dark">
+                        <span><span class="text-mjs-red mr-1">Q.</span>故障やメンテナンスはどうなりますか？</span>
+                        <i class="ph ph-plus text-mjs-red transition-transform duration-300 group-open:rotate-45"></i>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">定期メンテナンスはもちろん、万が一の不具合も担当者が迅速に対応します。「文句も言わず働く優秀な従業員」を、MJSが伴走してサポートし続けます。</p>
+                </details>
+
+                <details class="group bg-white rounded-2xl shadow-clay border border-white px-5 py-4">
+                    <summary class="flex justify-between items-center cursor-pointer font-bold text-mjs-dark">
+                        <span><span class="text-mjs-red mr-1">Q.</span>契約プランについて相談だけでも大丈夫ですか？</span>
+                        <i class="ph ph-plus text-mjs-red transition-transform duration-300 group-open:rotate-45"></i>
+                    </summary>
+                    <p class="text-sm text-gray-600 mt-3 leading-relaxed">もちろんです。まずはお店の広さやご希望をお伺いし、無理のないプランをご提案します。ご相談だけでも構いませんので、お気軽にお問い合わせください。</p>
+                </details>
             </div>
         </section>
 
         <!-- 導入の流れ -->
         <section class="px-4 py-16 max-w-3xl mx-auto bg-mjs-dark text-white rounded-[2.5rem] my-8 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-mjs-red rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
-            
+
             <h2 class="text-2xl font-black text-center mb-10 relative z-10">お問い合わせから<br>稼働までのスムーズな流れ</h2>
-            
+
             <div class="relative z-10 space-y-6">
                 <div class="flex items-start">
                     <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">1</div>
@@ -245,7 +371,7 @@
                     </div>
                 </div>
                 <div class="ml-5 w-0.5 h-6 bg-gray-600"></div>
-                
+
                 <div class="flex items-start">
                     <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">2</div>
                     <div>
@@ -254,7 +380,7 @@
                     </div>
                 </div>
                 <div class="ml-5 w-0.5 h-6 bg-gray-600"></div>
-                
+
                 <div class="flex items-start">
                     <div class="flex-shrink-0 w-10 h-10 rounded-full bg-mjs-red flex items-center justify-center font-black text-lg mr-4">3</div>
                     <div>
@@ -273,17 +399,73 @@
                 </div>
             </div>
         </section>
+
+        <!-- お問い合わせ（電話タップ発信＋LINE：APIなしで確実に動く導線） -->
+        <section id="contact" class="px-4 py-16 max-w-2xl mx-auto text-center">
+            <div class="inline-block bg-mjs-red text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                <i class="ph-fill ph-hand-waving mr-1"></i>ご相談は無料です
+            </div>
+            <h2 class="text-2xl md:text-3xl font-black mb-3 text-mjs-dark">まずは気軽に<br class="sm:hidden">聞いてみませんか？</h2>
+            <p class="text-sm text-gray-600 mb-8 leading-relaxed">
+                「うちの店に置ける？」「費用はどのくらい？」など、<br>
+                どんな小さな疑問でも大丈夫です。担当者が丁寧にお答えします。
+            </p>
+
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-clay border border-white space-y-4">
+                <!-- 電話（tel:）：スマホからタップ1つで発信。飲食店オーナーに最も効く導線 -->
+                <!-- ▼ tel: の番号を実際の連絡先に差し替えてください -->
+                <a href="tel:0000000000" class="flex items-center justify-center bg-mjs-red hover:bg-red-700 text-white font-black text-lg py-4 rounded-2xl transition-colors shadow-lg shadow-red-500/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-red-300">
+                    <i class="ph-fill ph-phone-call mr-2 text-2xl"></i>電話で相談する
+                </a>
+                <p class="text-xs text-gray-500">受付時間　平日 10:00〜18:00 ／ 通話料無料</p>
+
+                <div class="flex items-center gap-3 text-gray-300 text-xs">
+                    <span class="flex-1 h-px bg-gray-200"></span>または<span class="flex-1 h-px bg-gray-200"></span>
+                </div>
+
+                <!-- LINE：スキマ時間に文字で相談したい人向け -->
+                <!-- ▼ LINE公式アカウントのURLに差し替えてください -->
+                <a href="https://lin.ee/XXXXXXX" class="flex items-center justify-center bg-[#06C755] hover:bg-[#05b34c] text-white font-black text-lg py-4 rounded-2xl transition-colors shadow-lg shadow-green-500/30 focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300">
+                    <i class="ph-fill ph-chat-circle-text mr-2 text-2xl"></i>LINEで相談する
+                </a>
+                <p class="text-xs text-gray-500">24時間受付・その場で友だち追加できます</p>
+            </div>
+        </section>
     </main>
 
-    <footer class="bg-black text-gray-400 py-8 text-center text-xs">
-        <p>© MJS Co.,Ltd. All Rights Reserved.</p>
+    <footer class="bg-black text-gray-400 py-10 text-center text-xs">
+        <!-- SNS導線（GA4：SNS流入0.27%＝伸びしろ。両方向の導線を用意） -->
+        <!-- ▼ 各SNSのURLを実際のアカウントに差し替えてください -->
+        <div class="flex justify-center gap-5 mb-6">
+            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white/10 hover:bg-mjs-red flex items-center justify-center transition-colors">
+                <i class="ph-fill ph-instagram-logo text-xl text-white"></i>
+            </a>
+            <a href="#" aria-label="X（旧Twitter）" class="w-10 h-10 rounded-full bg-white/10 hover:bg-mjs-red flex items-center justify-center transition-colors">
+                <i class="ph-fill ph-x-logo text-xl text-white"></i>
+            </a>
+            <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-full bg-white/10 hover:bg-mjs-red flex items-center justify-center transition-colors">
+                <i class="ph-fill ph-youtube-logo text-xl text-white"></i>
+            </a>
+            <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-white/10 hover:bg-mjs-red flex items-center justify-center transition-colors">
+                <i class="ph-fill ph-facebook-logo text-xl text-white"></i>
+            </a>
+        </div>
+        <p>&copy; MJS Co.,Ltd. All Rights Reserved.</p>
     </footer>
 
-    <!-- 右下固定ボタンエリア -->
-    <div class="fixed bottom-8 right-8 z-50 flex flex-col gap-4 items-end pointer-events-none">
-        
-        <!-- LINE相談ボタン -->
-        <a href="#" class="pointer-events-auto bg-[#06C755] hover:bg-[#05b34c] text-white w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-colors duration-300 relative group">
+    <!-- スマホ用 追従CTAバー（画面下・親指の届く位置に常時表示） -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] flex">
+        <a href="tel:0000000000" class="flex-1 flex flex-col items-center justify-center py-3 text-mjs-red font-bold text-xs">
+            <i class="ph-fill ph-phone-call text-xl mb-0.5"></i>電話で相談
+        </a>
+        <a href="https://lin.ee/XXXXXXX" class="flex-1 flex flex-col items-center justify-center py-3 bg-[#06C755] text-white font-bold text-xs">
+            <i class="ph-fill ph-chat-circle-text text-xl mb-0.5"></i>LINEで相談
+        </a>
+    </div>
+
+    <!-- PC用 右下固定ボタン（LINE） -->
+    <div class="hidden md:flex fixed bottom-8 right-8 z-50 flex-col gap-4 items-end pointer-events-none">
+        <a href="https://lin.ee/XXXXXXX" class="pointer-events-auto bg-[#06C755] hover:bg-[#05b34c] text-white w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-colors duration-300 relative group">
             <i class="ph-fill ph-chat-circle-text text-2xl"></i>
             <!-- ツールチップ -->
             <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-white text-gray-800 text-xs font-bold px-3 py-2 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -292,21 +474,67 @@
                 <span class="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-white transform rotate-45"></span>
             </span>
         </a>
-
-        <!-- トップへ戻るボタン (スマイルプラスコンサルティング様仕様) -->
-        <button id="page-top-btn" class="pointer-events-auto bg-[#FFE066] text-[#0D3D52] hover:bg-[#0D3D52] hover:text-[#FFE066] w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 translate-y-4 cursor-pointer">
-            <!-- 上向き矢印SVG（バウンスアニメーション付き） -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-            </svg>
-        </button>
-
     </div>
+
+    <!-- トップへ戻るボタン（スマホでは追従バーの上に表示） -->
+    <button id="page-top-btn" class="fixed right-4 md:right-8 bottom-24 md:bottom-8 z-50 bg-[#FFE066] text-[#0D3D52] hover:bg-[#0D3D52] hover:text-[#FFE066] w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 translate-y-4 cursor-pointer" aria-label="ページ上部へ戻る">
+        <!-- 上向き矢印SVG（バウンスアニメーション付き） -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 motion-safe:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <!-- JavaScript -->
     <script>
-        // --- 診断ツールのロジック ---
+        // --- 診断ツールのロジック（3パターン出し分け） ---
+        const diagnosisResults = {
+            online: {
+                badge: '集客・売上アップ重視のあなたに',
+                plan: '【賃貸借契約（定額制）】プラン',
+                machine: '最新オンラインマシン（VSPHOENIX X 等）',
+                points: [
+                    '大画面モニターで店内のエンタメ性が一気にUP',
+                    '両替の手間なし！即日売上計上が可能',
+                    'イベントや大会で新規のお客様も呼び込める'
+                ]
+            },
+            offline: {
+                badge: 'まずは気軽に置いてみたいあなたに',
+                plan: '【オフライン機種・お手軽導入】プラン',
+                machine: '省スペースなオフライン機種「矢音」等',
+                points: [
+                    '通信環境がなくてもすぐに設置OK',
+                    'コンパクトで小さなスペースにも置ける',
+                    'お酒の席の「ちょい遊び」にちょうどいい'
+                ]
+            },
+            staff: {
+                badge: 'オーナー・スタッフの練習にも使いたいあなたに',
+                plan: '【賃貸借契約（定額制）】プラン',
+                machine: '最新オンラインマシン（VSPHOENIX X 等）',
+                points: [
+                    'オーナー様・スタッフ様は無料でプレイ可能',
+                    '料金やラウンド設定も自由自在',
+                    '練習しながらお店の看板メニューにもできる'
+                ]
+            }
+        };
+
         function showResult(type) {
+            const data = diagnosisResults[type] || diagnosisResults.online;
+
+            document.getElementById('result-badge').textContent = data.badge;
+            document.getElementById('result-plan').textContent = data.plan;
+            document.getElementById('result-machine').textContent = data.machine;
+
+            const ul = document.getElementById('result-points');
+            ul.innerHTML = '';
+            data.points.forEach(function (text) {
+                const li = document.createElement('li');
+                li.textContent = text;
+                ul.appendChild(li);
+            });
+
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
         }
